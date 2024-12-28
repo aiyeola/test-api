@@ -1,13 +1,14 @@
 "use client";
-
 import React from "react";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Call() {
   return (
     <div className="flex flex-col gap-y-5">
       <Fetch />
       <Axios />
+      <ReactQuery />
     </div>
   );
 }
@@ -55,6 +56,37 @@ function Axios() {
       onClick={getData}
     >
       Axios
+    </button>
+  );
+}
+
+const useGetCurrency = () => {
+  return useQuery({
+    queryKey: ["get_currency"],
+    queryFn: ({ signal }) =>
+      axios
+        .get(`https://test.api.betrebound.com/api/v1/currency`, {
+          signal,
+        })
+        .then((res) => res.data)
+        .catch((error) => {
+          throw error?.response?.data?.message;
+        }),
+  });
+};
+
+function ReactQuery() {
+  const { data, refetch } = useGetCurrency();
+  console.log("react query response: ", data);
+
+  return (
+    <button
+      className="bg-gray-500 text-white w-10 px-10 rounded flex justify-center items-center py-5"
+      onClick={() => {
+        refetch();
+      }}
+    >
+      React Query
     </button>
   );
 }
