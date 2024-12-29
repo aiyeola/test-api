@@ -1,9 +1,13 @@
 "use client";
 import React from "react";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSidebarOptions } from "../sports";
 
 export default function Call() {
+  const { data: sidebar } = useSuspenseQuery(useSidebarOptions());
+  console.log("sidebar: ", sidebar);
+
   return (
     <div className="flex flex-col gap-y-5">
       <Fetch />
