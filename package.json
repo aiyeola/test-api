@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pipeline": "git push origin main && git push deploy main"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.62.11",

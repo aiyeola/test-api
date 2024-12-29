@@ -9,7 +9,6 @@ export default function Call() {
       <Fetch />
       <Axios />
       <ReactQuery />
-      <ReactQuery />
     </div>
   );
 }
