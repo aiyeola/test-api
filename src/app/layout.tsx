@@ -4,6 +4,7 @@ import "./globals.css";
 import Provider from "./Provider";
 import { getQueryClient } from "../query/QueryClient";
 import { useSidebarOptions } from "../sports";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider>{children}</Provider>
+        <Suspense fallback="loading...">
+          <Provider>{children}</Provider>
+        </Suspense>
       </body>
     </html>
   );
