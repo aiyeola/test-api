@@ -3,6 +3,7 @@ import React from "react";
 import axios from "axios";
 import { useQuery, useSuspenseQuery, useMutation } from "@tanstack/react-query";
 import { useSidebarOptions } from "../sports";
+import { useRequestInstance } from "./config";
 
 export default function Call() {
   const { data: sidebar } = useSuspenseQuery(useSidebarOptions());
@@ -65,10 +66,12 @@ function Axios() {
 }
 
 const useGetCurrency = () => {
+  const request = useRequestInstance();
+
   return useQuery({
     queryKey: ["get_currency"],
     queryFn: ({ signal }) =>
-      axios
+      request
         .get(`https://test.api.betrebound.com/api/v1/currency`, {
           signal,
         })
@@ -80,9 +83,11 @@ const useGetCurrency = () => {
 };
 
 export const useLogin = () => {
+  const request = useRequestInstance();
+
   return useMutation({
     mutationFn: (values) =>
-      axios
+      request
         .post(`https://test.api.betrebound.com/api/v1/auth/login`, values)
         .then((res) => res.data)
         .catch((error) => {
