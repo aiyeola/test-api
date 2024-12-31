@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import axios from "axios";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery, useMutation } from "@tanstack/react-query";
 import { useSidebarOptions } from "../sports";
 
 export default function Call() {
@@ -79,15 +79,30 @@ const useGetCurrency = () => {
   });
 };
 
+export const useLogin = () => {
+  return useMutation({
+    mutationFn: (values) =>
+      axios
+        .post(`https://test.api.betrebound.com/api/v1/auth/login`, values)
+        .then((res) => res.data)
+        .catch((error) => {
+          throw error?.response?.data?.message;
+        }),
+  });
+};
+
 function ReactQuery() {
   const { data, refetch } = useGetCurrency();
   console.log("react query response: ", data);
+  const { mutate, data: loginData } = useLogin();
+  console.log("loginData: ", loginData);
 
   return (
     <button
       className="bg-gray-500 text-white w-10 px-10 rounded flex justify-center items-center py-5"
       onClick={() => {
         refetch();
+        mutate();
       }}
     >
       React Query
